@@ -2,5 +2,7 @@ bs4
 requests
 html5lib
 dbt-duckdb==1.7.0
+fsspec
+s3fs
 keyring
 keyrings.alt
