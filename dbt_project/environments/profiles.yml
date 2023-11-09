@@ -6,3 +6,6 @@ dbt_project:
       path: "{{ env_var('DBT_DUCKDB_PATH') }}"
       external_root: "{{ env_var('DBT_SOURCE_DATA_ROOT') }}/data"
       threads: 10
+    prod:
+      type: duckdb
+      path: md:cbb?motherduck_token={{ env_var('DBT_MOTHERDUCK_TOKEN') }}
