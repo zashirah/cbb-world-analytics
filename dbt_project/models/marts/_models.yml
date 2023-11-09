@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: fct_episode
+  - name: xref_episode_guest
+  - name: dim_guest
+  - name: xref_episode_character
+  - name: dim_character
+  - name: xref_episode_host
+  - name: dim_host

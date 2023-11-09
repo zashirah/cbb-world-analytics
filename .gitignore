@@ -1,3 +1,7 @@
 .virtual_documents/
 venv/
 data/
+logs/
+.vscode/
+*.db
+__pycache__/

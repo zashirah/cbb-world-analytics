@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    meta:
+      external_location: "{{ env_var('DBT_SOURCE_DATA_ROOT') }}/data/raw/{name}.json"
+    tables:
+      - name: cbb_episodes
+      - name: best_ofs
+      - name: guests
+      - name: characters

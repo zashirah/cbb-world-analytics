@@ -1,0 +1,8 @@
+dbt_project:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_PATH') }}"
+      external_root: "{{ env_var('DBT_SOURCE_DATA_ROOT') }}/data"
+      threads: 10
