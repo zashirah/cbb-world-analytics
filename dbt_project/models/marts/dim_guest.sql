@@ -7,7 +7,7 @@ select
     b.first_episode,
     b.latest_episode
 
-from {{ ref('explode_guests') }} a 
+from {{ ref('explode_guests_from_episodes') }} a 
 left join {{ ref('stg_guests') }} b
 using (guest_id)
 

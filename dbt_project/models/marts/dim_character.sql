@@ -7,7 +7,7 @@ select distinct
     b.first_episode,
     b.latest_episode
 
-from {{ ref('explode_characters') }} a
+from {{ ref('explode_characters_from_episodes') }} a
 left join {{ ref('stg_characters') }} b
 using (character_id)
 
