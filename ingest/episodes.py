@@ -87,7 +87,7 @@ def get_special_eps(get_details=False, store=False):
             print('----')
         
     if store:
-        with open('special_apps.json', 'w') as file:
+        with open('special_eps.json', 'w') as file:
             json.dump(episodes, file)
 
     # print(episodes)

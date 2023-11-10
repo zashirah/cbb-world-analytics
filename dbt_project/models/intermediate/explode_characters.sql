@@ -1,6 +1,6 @@
 {#
     {% call statement('get_loops', fetch_result=True) %}
-        SELECT max(len(guests)) FROM {{ ref('stg_cbb_episodes') }}
+        SELECT max(len(guests)) FROM {{ ref('stg_episodes') }}
     {% endcall %}
 
     {% set loops = load_result('get_loops')['data'][0][0] %}
@@ -16,7 +16,7 @@ with unioned as (
         characters[{{ num }}].name as character_name,
         episode_href
 
-    from {{ ref('stg_cbb_episodes') }}
+    from {{ ref('stg_episodes') }}
     
     {%- if not loop.last %} union {% endif -%}
 {% endfor %}

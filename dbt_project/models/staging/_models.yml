@@ -1,4 +1,6 @@
 version: 2
 
 models:
-  - name: stg_cbb_episodes
+  - name: stg_episodes
+  - name: base_cbb_episodes
+  - name: base_special_episodes

@@ -9,3 +9,4 @@ sources:
       - name: best_ofs
       - name: guests
       - name: characters
+      - name: special_eps
