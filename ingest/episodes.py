@@ -65,25 +65,24 @@ def create_episodes_list(episodes_raw):
 def get_best_ofs(store=False):
     soup = get_soup(f'{HOST}wiki/Category:Best_Of')
 
-    year = 2022
-
     episodes = []
 
     for table_tag in soup.find_all('table', attrs={'class': 'article-table'}):
+        year = table_tag.find('caption').get_text()
         for a_tag in table_tag.find_all('a'):
             episode = {
-                'best_of_year': year,
+                'best_of_year': year.strip(),
                 'href': a_tag.get('href')
             }
             episodes.append(episode)
-        
-        year -= 1
 
+            print(episode)
+        
     if store:
         with open('best_ofs.json', 'w') as file:
             json.dump(episodes, file)
 
-    print(episodes)
+    # print(episodes)
 
     return episodes
 
@@ -99,4 +98,4 @@ def backfill_all_episodes(store=False):
             json.dump(episodes, file)
 
 if __name__ == '__main__':
-    globals()[sys.argv[1]](sys.argv[2])
+    get_best_ofs(True)
