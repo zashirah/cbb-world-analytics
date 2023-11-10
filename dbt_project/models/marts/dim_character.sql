@@ -12,3 +12,4 @@ left join {{ ref('stg_characters') }} b
 using (character_id)
 
 where a.character_name is not null
+and a.character_href = 'wiki/Gino_Lambardo'
