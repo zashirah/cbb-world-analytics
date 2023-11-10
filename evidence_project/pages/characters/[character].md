@@ -1,10 +1,5 @@
 # {$page.params.character}
 
-```characters
-select *
-from dim_character
-```
-
 ## CBB Summary
 
 ```characters_per_ep
