@@ -1,24 +1,24 @@
 ```guests_per_ep
 select 
-    episode_title, 
-    episode_number, 
-    release_date, 
-    date_part('year', release_date) as release_year,
-    best_of_flag, 
-    special_episode,
-    lower_guest_href[7:] as guest_link, 
-    guest_name,
-    guest_id,
+    fct_episode.episode_title, 
+    fct_episode.episode_number, 
+    fct_episode.release_date, 
+    date_part('year', fct_episode.release_date) as release_year,
+    fct_episode.best_of_flag, 
+    fct_episode.special_episode,
+    dim_guest.lower_guest_href[7:] as guest_link, 
+    dim_guest.guest_name,
+    dim_guest.guest_id,
 
     count(*) as guests
 
 from fct_episode 
 inner join xref_episode_guest
-using (episode_id)
+using (episode_title)
 inner join dim_guest
-using (guest_id)
+using (guest_name)
 
-where upper(episode_title) not like 'BEST OF%'
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 
 group by all
 ```
@@ -87,5 +87,38 @@ order by 1 desc
     <Column id="special_episode" />
 </DataTable>
 
+## Characters
 
+```character_guests
+select
+    dim_guest.guest_name,
+    dim_character.character_name,
+    dim_guest.lower_guest_href[7:] as guest_link, 
+    '/characters/' || lower_character_href[7:] as character_link,
+    count(*) as episodes,
+    sum(case when fct_episode.best_of_flag then 1 else 0 end) as best_of_episodes,
+    sum(case when fct_episode.best_of_flag then 1 else 0 end) / count(*) as best_of_rate,
+    sum(case when fct_episode.special_episode then 1 else 0 end) as special_episodes
 
+from dim_guest
+inner join xref_character_guest
+using (guest_name)
+inner join dim_character 
+using (character_name)
+inner join xref_episode_character
+using (character_name)
+inner join fct_episode
+using (episode_title)
+
+group by all
+
+order by episodes desc
+```
+
+<DataTable data="{character_guests.filter(d => d.guest_link === $page.params.guest)}" link=character_link>
+    <Column id="character_name" />
+    <Column id="episodes" />
+    <Column id="best_of_episodes" />
+    <Column id="best_of_rate" fmt=pct0/>
+    <Column id="special_episodes" />
+</DataTable>

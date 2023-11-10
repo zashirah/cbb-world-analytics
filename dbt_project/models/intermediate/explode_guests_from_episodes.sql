@@ -14,7 +14,8 @@ with unioned as (
     select 
         guests[{{ num }}].href as guest_href,
         guests[{{ num }}].name as guest_name,
-        episode_href
+        episode_href,
+        episode_title
 
     from {{ ref('stg_episodes') }}
     

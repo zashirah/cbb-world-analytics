@@ -14,7 +14,8 @@ with unioned as (
     select 
         hosts[{{ num }}].href as host_href,
         hosts[{{ num }}].name as host_name,
-        episode_href
+        episode_href,
+        episode_title
 
     from {{ ref('stg_episodes') }}
     

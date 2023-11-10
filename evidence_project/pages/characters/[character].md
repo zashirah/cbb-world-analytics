@@ -1,24 +1,38 @@
 
+```character_guests
+select
+    dim_guest.guest_name,
+    '/guests/' || lower_guest_href[7:] as guest_link,
+    dim_character.lower_character_href[7:] as character_link, 
+    dim_character.character_name
+
+from dim_guest
+inner join xref_character_guest
+using (guest_name)
+inner join dim_character 
+using (character_name)
+```
+
 ```characters_per_ep
 select 
-    episode_title, 
-    episode_number, 
-    release_date, 
-    date_part('year', release_date) as release_year,
-    best_of_flag, 
-    special_episode,
-    lower_character_href[7:] as character_link, 
-    character_name,
-    character_id,
+    fct_episode.episode_title, 
+    fct_episode.episode_number, 
+    fct_episode.release_date, 
+    date_part('year', fct_episode.release_date) as release_year,
+    fct_episode.best_of_flag, 
+    fct_episode.special_episode,
+    dim_character.lower_character_href[7:] as character_link, 
+    dim_character.character_name,
+    dim_character.character_id,
     count(*) as characters
 
 from fct_episode 
 inner join xref_episode_character
-using (episode_id)
+using (episode_title)
 inner join dim_character
-using (character_id)
+using (character_name)
 
-where upper(episode_title) not like 'BEST OF%'
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 
 group by all
 
@@ -26,6 +40,11 @@ order by release_date desc
 ```
 
 # <Value data={characters_per_ep.filter(d => d.character_link === $page.params.character)} column=character_name />
+
+Played by: 
+<DataTable data={character_guests.filter(d => d.character_link === $page.params.character)} link=guest_link>
+    <Column id="guest_name" />
+</DataTable >
 
 ```character_totals
 select 

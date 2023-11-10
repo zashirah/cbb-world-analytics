@@ -14,7 +14,8 @@ with unioned as (
     select 
         characters[{{ num }}].href as character_href,
         characters[{{ num }}].name as character_name,
-        episode_href
+        episode_href,
+        episode_title
 
     from {{ ref('stg_episodes') }}
     

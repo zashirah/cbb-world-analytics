@@ -2,21 +2,21 @@
 
 ```guests_per_ep
 select 
-    episode_title, 
-    episode_number, 
-    release_date, 
-    date_part('year', release_date)::string as release_year,
-    case when best_of_flag then 25 else 0 end as best_of_flag, 
-    case when special_episode then 25 else 0 end as special_episode_flag, 
+    fct_episode.episode_title, 
+    fct_episode.episode_number, 
+    fct_episode.release_date, 
+    date_part('year', fct_episode.release_date)::string as release_year,
+    case when fct_episode.best_of_flag then 25 else 0 end as best_of_flag, 
+    case when fct_episode.special_episode then 25 else 0 end as special_episode_flag, 
     count(*) as characters
 
 from fct_episode 
 inner join xref_episode_guest
-using (episode_id)
+using (episode_title)
 inner join dim_guest
-using (guest_id)
+using (guest_name)
 
-where upper(episode_title) not like 'BEST OF%'
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 
 group by all
 
@@ -37,17 +37,17 @@ order by release_date desc
 
 ```guests_ep_total
 select 
-    guest_name, 
-    date_part('year', release_date)::string as release_year,
-    sum(case when best_of_flag then 1 else 0 end) as best_of_episodes, 
-    sum(case when not best_of_flag then 1 else 0 end) as non_best_of_episodes, 
+    dim_guest.guest_name, 
+    date_part('year', fct_episode.release_date)::string as release_year,
+    sum(case when fct_episode.best_of_flag then 1 else 0 end) as best_of_episodes, 
+    sum(case when not fct_episode.best_of_flag then 1 else 0 end) as non_best_of_episodes, 
     count(*) as episodes
 from fct_episode 
 inner join xref_episode_guest
-using (episode_id)
+using (episode_title)
 inner join dim_guest
-using (guest_id)
-where upper(episode_title) not like 'BEST OF%'
+using (guest_name)
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 group by all
 ```
 
@@ -62,17 +62,17 @@ group by all
 
 ```characters_ep_total
 select 
-    character_name, 
-    date_part('year', release_date)::string as release_year,
-    sum(case when best_of_flag then 1 else 0 end) as best_of_episodes, 
-    sum(case when not best_of_flag then 1 else 0 end) as non_best_of_episodes, 
+    dim_character.character_name, 
+    date_part('year', fct_episode.release_date)::string as release_year,
+    sum(case when fct_episode.best_of_flag then 1 else 0 end) as best_of_episodes, 
+    sum(case when not fct_episode.best_of_flag then 1 else 0 end) as non_best_of_episodes, 
     count(*) as episodes
 from fct_episode 
 inner join xref_episode_character
-using (episode_id)
+using (episode_title)
 inner join dim_character
-using (character_id)
-where upper(episode_title) not like 'BEST OF%'
+using (character_name)
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 group by all
 ```
 

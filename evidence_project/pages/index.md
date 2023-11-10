@@ -46,9 +46,9 @@ select
 
 from fct_episode 
 inner join xref_episode_guest
-using (episode_id)
+using (episode_title)
 inner join dim_guest
-using (guest_id)
+using (guest_name)
 
 where upper(episode_title) not like 'BEST OF%'
 
@@ -71,7 +71,7 @@ order by release_date desc
 
 ```guests_ep_total
 select 
-    guest_name, 
+    dim_guest.guest_name, 
     sum(case when best_of_flag then 1 else 0 end) as best_of_episodes, 
     sum(case when not best_of_flag then 1 else 0 end) as non_best_of_episodes, 
     count(*) as episodes
@@ -80,7 +80,7 @@ inner join xref_episode_guest
 using (episode_id)
 inner join dim_guest
 using (guest_id)
-where upper(episode_title) not like 'BEST OF%'
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 group by all
 having episodes >= 25
 ```
@@ -96,16 +96,16 @@ having episodes >= 25
 
 ```characters_ep_total
 select 
-    character_name, 
+    dim_character.character_name, 
     sum(case when best_of_flag then 1 else 0 end) as best_of_episodes, 
     sum(case when not best_of_flag then 1 else 0 end) as non_best_of_episodes, 
     count(*) as episodes
 from fct_episode 
 inner join xref_episode_character
-using (episode_id)
+using (episode_title)
 inner join dim_character
-using (character_id)
-where upper(episode_title) not like 'BEST OF%'
+using (character_name)
+where upper(fct_episode.episode_title) not like 'BEST OF%'
 group by all
 having episodes >= 10
 ```
