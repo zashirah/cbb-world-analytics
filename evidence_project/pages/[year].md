@@ -1,27 +1,6 @@
-# Full CBB Episode History
+{$page.params.year}
 
-## Click the year below to see a detailed yearly view
-
-```best_ofs
-select 
-    date_part('year', release_date)::string as release_year, 
-    '/' || release_year as release_year_link,
-    sum(case when best_of_flag then 1 else 0 end) as best_of_count,
-    sum(case when special_episode then 1 else 0 end) as special_episode_count,
-    count(*) episode_count
-from fct_episode 
-group by all
-order by release_year desc
-```
-
-<DataTable data="{best_ofs}" link=release_year_link>
-    <Column id="release_year" />
-    <Column id="episode_count" />
-    <Column id="best_of_count" />
-    <Column id="special_episode_count" />
-</DataTable>
-
-## CBB Summary
+## Yearly Summary
 
 ```guests_per_ep
 select 
@@ -29,8 +8,8 @@ select
     episode_number, 
     release_date, 
     date_part('year', release_date)::string as release_year,
-    case when best_of_flag then 100 else 0 end as best_of_flag, 
-    case when special_episode then 100 else 0 end as special_episode_flag, 
+    case when best_of_flag then 25 else 0 end as best_of_flag, 
+    case when special_episode then 25 else 0 end as special_episode_flag, 
     count(*) as characters
 
 from fct_episode 
@@ -47,20 +26,21 @@ order by release_date desc
 ```
 
 <Chart 
-    data={guests_per_ep} 
+    data={guests_per_ep.filter(d => d.release_year === $page.params.year)} 
     x=release_date 
-    yMax=25
+    yMax=20
 >
     <Line y=characters/>
     <Bar y=best_of_flag/>
     <Bar y=special_episode_flag/>
 </Chart >
 
-## Top CBB Guests
+## CBB Guests
 
 ```guests_ep_total
 select 
     guest_name, 
+    date_part('year', release_date)::string as release_year,
     sum(case when best_of_flag then 1 else 0 end) as best_of_episodes, 
     sum(case when not best_of_flag then 1 else 0 end) as non_best_of_episodes, 
     count(*) as episodes
@@ -71,21 +51,21 @@ inner join dim_guest
 using (guest_id)
 where upper(episode_title) not like 'BEST OF%'
 group by all
-having episodes >= 25
 ```
 
 <BarChart 
-    data={guests_ep_total} 
+    data={guests_ep_total.filter(d => d.release_year === $page.params.year)} 
     x=guest_name 
     y={['best_of_episodes','non_best_of_episodes']}
     swapXY=true
 />
 
-## Top CBB Characters
+## CBB Characters
 
 ```characters_ep_total
 select 
     character_name, 
+    date_part('year', release_date)::string as release_year,
     sum(case when best_of_flag then 1 else 0 end) as best_of_episodes, 
     sum(case when not best_of_flag then 1 else 0 end) as non_best_of_episodes, 
     count(*) as episodes
@@ -96,11 +76,10 @@ inner join dim_character
 using (character_id)
 where upper(episode_title) not like 'BEST OF%'
 group by all
-having episodes >= 10
 ```
 
 <BarChart 
-    data={characters_ep_total} 
+    data={characters_ep_total.filter(d => d.release_year === $page.params.year)} 
     x=character_name 
     y={['best_of_episodes','non_best_of_episodes']}
     swapXY=true
