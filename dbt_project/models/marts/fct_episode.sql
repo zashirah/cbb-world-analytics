@@ -4,7 +4,9 @@ select
     episodes.episode_href,
     episodes.episode_number,
     episodes.release_date,
-    case when best_ofs.episode_id is not null then True else False end as best_of_flag,
+    episodes.special_episode,
+    case when best_ofs.episode_id is not null
+        then True else False end as best_of_flag,
     best_ofs.best_of_year
 
 from {{ ref('stg_episodes') }} as episodes

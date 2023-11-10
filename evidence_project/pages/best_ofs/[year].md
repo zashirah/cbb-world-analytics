@@ -1,1 +1,0 @@
-{$page.params.year}

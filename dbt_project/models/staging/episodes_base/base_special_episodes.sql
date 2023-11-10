@@ -6,6 +6,7 @@ select
     release_date::date as release_date,
     hosted_by as hosts,
     guests,
-    characters
+    characters,
+    true as special_episode
 
 from {{ source('raw', 'special_eps')}}
