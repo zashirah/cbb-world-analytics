@@ -12,7 +12,7 @@ select
     episode_title, 
     episode_number, 
     release_date, 
-    date_part('year', release_date)::string as release_year,
+    date_part('year', release_date) as release_year,
     best_of_flag, 
     special_episode,
     character_href[7:] as character_link, 
@@ -37,4 +37,26 @@ order by release_date desc
     y={['characters', 'best_of_flag', 'special_episode']} 
     type=grouped
     yMax=1
+/>
+
+## Episodes per Year 
+
+```character_yearly_totals
+select 
+    release_year,
+    character_link, 
+    count(*) as episodes
+
+from ${characters_per_ep}
+
+group by all
+
+order by 1 desc
+```
+
+<BarChart 
+    data={character_yearly_totals.filter(d => d.character_link === $page.params.character)} 
+    x=release_year
+    y={['episodes']}
+    type=grouped
 />
