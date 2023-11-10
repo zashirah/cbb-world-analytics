@@ -32,6 +32,8 @@ order by release_year desc
     <Column id="special_episode_count" />
 </DataTable>
 
+
+
 ## CBB Summary
 
 ```guests_per_ep
@@ -69,6 +71,8 @@ order by release_date desc
 
 ## Top CBB Guests
 
+[More Guests](/guests/)
+
 ```guests_ep_total
 select 
     dim_guest.guest_name, 
@@ -82,17 +86,40 @@ inner join dim_guest
 using (guest_id)
 where upper(fct_episode.episode_title) not like 'BEST OF%'
 group by all
-having episodes >= 25
 ```
 
+```guests_ep_total_gt_25
+select *
+from ${guests_ep_total}
+where episodes >= 25
+```
+
+```guests_ep_total_remove_outliers
+select *
+from ${guests_ep_total}
+where guest_name not in ('Paul F. Tompkins', 'Lauren Lapkus')
+```
+
+
 <BarChart 
-    data={guests_ep_total} 
+    data={guests_ep_total_gt_25} 
     x=guest_name 
     y={['best_of_episodes','non_best_of_episodes']}
     swapXY=true
 />
 
+<ScatterPlot 
+    data={guests_ep_total} 
+    y=best_of_episodes 
+    x=episodes 
+    xAxisTitle="Total Episodes" 
+    yAxisTitle="Best of Episodes" 
+    tooltipTitle=guest_name
+/>
+
 ## Top CBB Characters
+
+[More Characters](/characters/)
 
 ```characters_ep_total
 select 
@@ -107,12 +134,28 @@ inner join dim_character
 using (character_name)
 where upper(fct_episode.episode_title) not like 'BEST OF%'
 group by all
-having episodes >= 10
+```
+
+
+```characters_ep_total_gt_10
+select *
+from ${characters_ep_total}
+where episodes >= 10
 ```
 
 <BarChart 
-    data={characters_ep_total} 
+    data={characters_ep_total_gt_10} 
     x=character_name 
     y={['best_of_episodes','non_best_of_episodes']}
     swapXY=true
+/>
+
+
+<ScatterPlot 
+    data={characters_ep_total} 
+    y=best_of_episodes 
+    x=episodes 
+    xAxisTitle="Total Episodes" 
+    yAxisTitle="Best of Episodes" 
+    tooltipTitle=character_name
 />
