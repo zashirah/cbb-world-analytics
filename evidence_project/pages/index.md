@@ -5,7 +5,7 @@
 ```best_ofs
 select 
     date_part('year', release_date)::string as release_year, 
-    '/' || release_year as release_year_link,
+    '/year/' || release_year as release_year_link,
     sum(case when best_of_flag then 1 else 0 end) as best_of_count,
     sum(case when special_episode then 1 else 0 end) as special_episode_count,
     count(*) episode_count

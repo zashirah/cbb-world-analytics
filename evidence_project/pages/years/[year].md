@@ -1,5 +1,3 @@
-{$page.params.year}
-
 ## Yearly Summary
 
 ```guests_per_ep
