@@ -26,6 +26,7 @@ def get_episode_href(episode_html):
 
 def get_episode(href, store=False):
     episode_soup = get_soup(F'{HOST}{href}')
+    print(href)
 
     table = episode_soup.find('table', attrs = {'class':'wikia-infobox'})
 
@@ -33,7 +34,6 @@ def get_episode(href, store=False):
     table_len = len(table_rows)
 
     release_date = table_rows[table_len - 8].find('td').get_text().strip().translate({ord(i): None for i in ',.'})
-    print(release_date)
     duckdb_date = datetime.strptime(release_date, '%B %d %Y').strftime('%Y-%m-%d')
 
     episode = {
@@ -61,6 +61,39 @@ def create_episodes_list(episodes_raw):
         episodes.append(episode)
 
     return episodes
+
+def get_special_eps(get_details=False, store=False):
+    soup = get_soup(f'{HOST}wiki/Category:Special_Episodes')
+
+    episodes = []
+
+    for table_tag in soup.find_all('div', attrs={'class': 'category-page__members'}):
+        for a_tag in table_tag.find_all('a'):
+            # skipping /wiki/2013_Tour,_San_Francisco b/c there is a error in the date
+            if a_tag.get('href') in [
+                '/wiki/Category:Live_Episodes', '/wiki/2013_Tour,_San_Francisco', 
+                '/wiki/Category:B-b-b-b-bonus-s-s-s-s!', '/wiki/Category:Video_Episodes']:
+                continue
+            if get_details:
+                episode = get_episode(a_tag.get('href'))
+            else:
+                episode = {
+                    'href': a_tag.get('href')
+                }
+
+            episodes.append(episode)
+
+            print(episode)
+            print('----')
+        
+    if store:
+        with open('special_apps.json', 'w') as file:
+            json.dump(episodes, file)
+
+    # print(episodes)
+
+    return episodes
+
 
 def get_best_ofs(store=False):
     soup = get_soup(f'{HOST}wiki/Category:Best_Of')
@@ -98,4 +131,4 @@ def backfill_all_episodes(store=False):
             json.dump(episodes, file)
 
 if __name__ == '__main__':
-    get_best_ofs(True)
+    get_special_eps(True, True)
