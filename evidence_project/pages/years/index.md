@@ -8,6 +8,7 @@ select
     sum(case when special_episode then 1 else 0 end) as special_episode_count,
     count(*) episode_count
 from fct_episode 
+where release_year != '2023'
 group by all
 order by release_year desc
 ```
