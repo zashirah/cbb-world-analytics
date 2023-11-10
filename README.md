@@ -4,6 +4,8 @@ CBB World Analytics is a data project using DuckDB and Motherduck for storage, d
 
 Currently, the compute is all local to my machine. I will automate at some point. 
 
+Front End: https://cbb-world-analytics.netlify.app/
+
 ## Ingest
 
 There are python scripts to make the following calls:
