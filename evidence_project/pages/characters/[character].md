@@ -15,7 +15,7 @@ select
     date_part('year', release_date) as release_year,
     best_of_flag, 
     special_episode,
-    character_href[7:] as character_link, 
+    lower_character_href[7:] as character_link, 
     count(*) as characters
 
 from fct_episode 

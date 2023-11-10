@@ -9,3 +9,4 @@ dbt_project:
     prod:
       type: duckdb
       path: md:cbb?motherduck_token={{ env_var('DBT_MOTHERDUCK_TOKEN') }}
+      threads: 10

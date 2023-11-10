@@ -1,6 +1,7 @@
 select distinct 
     a.character_id, 
     a.character_href, 
+    b.lower_character_href, 
     a.character_name,
     b.number_of_wiki_appearances,
     b.first_episode,

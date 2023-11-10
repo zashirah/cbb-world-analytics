@@ -1,6 +1,6 @@
 ```characters
 select *,
-    '/characters/' || character_href[7:] as character_link,
+    '/characters/' || lower_character_href[7:] as character_link,
 from dim_character
 where character_href != 'N/A'
 order by character_name
@@ -8,10 +8,10 @@ order by character_name
 
 ## Featured Guests
 
-* [Sprague The Whisperer](Sprague_The_Whisperer)
-* [Ho Ho the Elf](Ho_Ho_the_Elf)
-* [Gino Lambardo](Gino_Lambardo)
-* [Charles Barkley](Charles_Barkley)
+* [Sprague The Whisperer](sprague_the_whisperer)
+* [Ho Ho the Elf](ho_ho_the_elf)
+* [Gino Lambardo](gino_lambardo)
+* [Charles Barkley](charles_barkley)
 
 ### Click the character below to see a detailed yearly view
 

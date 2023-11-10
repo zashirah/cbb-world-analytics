@@ -15,7 +15,7 @@ select
     date_part('year', release_date) as release_year,
     best_of_flag, 
     special_episode,
-    guest_href[7:] as guest_link, 
+    lower_guest_href[7:] as guest_link, 
     count(*) as guests
 
 from fct_episode 

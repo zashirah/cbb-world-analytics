@@ -1,5 +1,15 @@
 # Full CBB Episode History
 
+CBB World (or Comedy Bang Bang World) is the product of Scott Aukerman, amongst others. There has been a show, a long running podcase, and a book. I've been a weekly listener since 2016, a subscriber to CBB World since that began, and I greatly appreciate all the work that goes into the program. So I decided to build an app that could show me some metrics around CBB episodes. 
+
+There is a wiki site that all of this data is sourced from: https://comedybangbang.fandom.com/wiki/Main_Page. There are a few python modules that I wrote to help scrape the data from the site. The data on DuckDB/Motherduck and transformed with dbt-duckdb. This site is built with evidence.dev which I have a used a few times and greatly enjoyed. 
+
+Check out the repo here: https://github.com/zashirah/cbb-world-analytics
+
+If you have any ideas for graphics/new data/etc, reach out to me on Twitter (@zachsshirah) or submit an issue on the GitHub repo.
+
+Have fun!
+
 ## Click the year below to see a detailed yearly view
 
 ```best_ofs

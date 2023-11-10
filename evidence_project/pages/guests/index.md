@@ -1,7 +1,7 @@
 
 ```guests
 select *,
-    '/guests/' || guest_href[7:] as guest_link,
+    '/guests/' || lower_guest_href[7:] as guest_link,
 from dim_guest
 where guest_href != 'N/A'
 order by guest_name
@@ -9,10 +9,10 @@ order by guest_name
 
 ## Featured Guests
 
-* [Lauren Lapkus](Lauren_Lapkus)
-* [Paul F. Tompkins](Paul_F._Tompkins)
-* [Shaun Diston](Shaun_Diston)
-* [Ego Nwodim](Ego_Nwodim)
+* [Lauren Lapkus](lauren_lapkus)
+* [Paul F. Tompkins](paul_f._tompkins)
+* [Shaun Diston](shaun_diston)
+* [Ego Nwodim](ego_nwodim)
 
 ### Click the guest below to see a detailed yearly view
 

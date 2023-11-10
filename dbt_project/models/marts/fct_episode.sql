@@ -2,6 +2,7 @@ select
     episodes.episode_id,
     episodes.episode_title,
     episodes.episode_href,
+    episodes.lower_episode_href,
     episodes.episode_number,
     episodes.release_date,
     episodes.special_episode,

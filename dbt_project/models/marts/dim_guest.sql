@@ -1,6 +1,7 @@
 select 
     distinct a.guest_id, 
     a.guest_href, 
+    b.lower_guest_href, 
     a.guest_name,
     b.number_of_wiki_appearances,
     b.first_episode,
