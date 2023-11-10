@@ -10,7 +10,7 @@ order by character_name
 
 * [Sprague The Whisperer](sprague_the_whisperer)
 * [Ho Ho the Elf](ho_ho_the_elf)
-* [Gino Lambardo](gino_lombardo)
+* [Gino Lambardo](gino_lambardo)
 * [Charles Barkley](charles_barkley)
 
 ### Click the character below to see a detailed yearly view

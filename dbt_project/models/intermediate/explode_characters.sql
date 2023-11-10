@@ -23,7 +23,7 @@ with unioned as (
 )
 
 select 
-    {{ dbt_utils.generate_surrogate_key(['character_href', 'character_name']) }} as character_id,
+    {{ dbt_utils.generate_surrogate_key(['character_href']) }} as character_id,
     {{ dbt_utils.generate_surrogate_key(['episode_href']) }} as episode_id,
     *
 
