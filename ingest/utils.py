@@ -24,3 +24,9 @@ def parse_people_data(raw_list):
         })
 
     return people
+
+def parse_dates(raw_date):
+    raw_date = raw_date.strip().translate({ord(i): None for i in ',.'})
+    output_date = datetime.strptime(raw_date, '%B %d %Y').strftime('%Y-%m-%d')
+
+    return output_date

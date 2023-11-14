@@ -1,28 +1,23 @@
 from datetime import datetime 
 import json
+import string
 import sys
 
-from utils import get_soup, parse_people_data
+from utils import get_soup, parse_people_data, parse_dates
 
 HOST = "https://comedybangbang.fandom.com/"
 
 def get_episodes(soup):
     episodes_raw = soup.find_all('div', attrs = {'class':'wikia-gallery-item'}) 
 
-    print(len(episodes_raw))
-
     return episodes_raw
 
-def parse_dates(raw_date):
-    raw_date = raw_date.strip().translate({ord(i): None for i in ',.'})
-    output_date = datetime.strptime(raw_date, '%B %d %Y').strftime('%Y-%m-%d')
-
-    return output_date
-
 def get_episode_href(episode_html):
-    href = episode_raw.find(
+    href = episode_html.find(
         'div', attrs = {'class': 'lightbox-caption'}
     ).find('a').get('href')
+
+    return href
 
 def get_episode(href, store=False):
     episode_soup = get_soup(F'{HOST}{href}')
@@ -90,10 +85,7 @@ def get_special_eps(get_details=False, store=False):
         with open('special_eps.json', 'w') as file:
             json.dump(episodes, file)
 
-    # print(episodes)
-
     return episodes
-
 
 def get_best_ofs(store=False):
     soup = get_soup(f'{HOST}wiki/Category:Best_Of')
@@ -115,8 +107,6 @@ def get_best_ofs(store=False):
         with open('best_ofs.json', 'w') as file:
             json.dump(episodes, file)
 
-    # print(episodes)
-
     return episodes
 
 def backfill_all_episodes(store=False):
@@ -130,5 +120,16 @@ def backfill_all_episodes(store=False):
         with open('cbb_episodes.json', 'w') as file:
             json.dump(episodes, file)
 
+def get_newest_episode(store=False):
+    soup = get_soup(f"{HOST}wiki/Category:Episodes")
+
+    episodes_raw = get_episodes(soup)
+    episode_href = get_episode_href(episodes_raw[0])
+    episode = get_episode(episode_href)
+
+    if store:
+        with open(f'cbb_episode_{episode_href[6:]}.json', 'w') as file:
+            json.dump(episode, file)
+
 if __name__ == '__main__':
-    get_special_eps(True, True)
+    get_newest_episode(True)
